@@ -4,10 +4,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <title>2027 デート</title>
+
 <style>
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
 body {
     background: #ffffff;
@@ -18,7 +23,9 @@ body {
     margin: 0;
 }
 
-.container { text-align: center; }
+.container {
+    text-align: center;
+}
 
 .title {
     font-family: serif;
@@ -52,9 +59,20 @@ body {
 }
 
 @keyframes flip {
-    0% { transform: rotateX(0deg); opacity: 1; }
-    50% { transform: rotateX(-90deg); opacity: 0; }
-    100% { transform: rotateX(0deg); opacity: 1; }
+    0% {
+        transform: rotateX(0deg);
+        opacity: 1;
+    }
+
+    50% {
+        transform: rotateX(-90deg);
+        opacity: 0;
+    }
+
+    100% {
+        transform: rotateX(0deg);
+        opacity: 1;
+    }
 }
 
 .label {
@@ -66,37 +84,81 @@ body {
 }
 </style>
 </head>
+
 <body>
+
 <div class="container">
+
     <div class="title">2027 デート</div>
+
     <div class="flip-card">
         <div class="number" id="days">0</div>
         <div class="label">DAYS</div>
     </div>
+
 </div>
+
 <script>
-const target = Date.UTC(2027, 0, 31, 0, 0, 0);
+// 目標日：2027年1月31日（日本時間）
+const target = new Date("2027-01-31T00:00:00+09:00");
+
 let previousDays = null;
 
 function updateCountdown() {
-    const now = new Date();
-    const japanNow = now.getTime()
-        + now.getTimezoneOffset() * 60000
-        + 9 * 60 * 60000;
-    const diff = target - japanNow;
-    const days = Math.max(0, Math.ceil(diff / 86400000));
+
+    // 取得目前日本時間
+    const japanDate = new Date(
+        new Date().toLocaleString("en-US", {
+            timeZone: "Asia/Tokyo"
+        })
+    );
+
+    // 取得日本今天的日期
+    const today = Date.UTC(
+        japanDate.getFullYear(),
+        japanDate.getMonth(),
+        japanDate.getDate()
+    );
+
+    // 取得目標日期
+    const targetDay = Date.UTC(
+        target.getUTCFullYear(),
+        target.getUTCMonth(),
+        target.getUTCDate()
+    );
+
+    // 計算剩餘天數
+    const diff = targetDay - today;
+
+    const days = Math.max(
+        0,
+        Math.ceil(diff / 86400000)
+    );
+
     const element = document.getElementById("days");
 
+    // 數字改變時播放翻頁動畫
     if (days !== previousDays) {
+
         element.classList.remove("flip");
+
         void element.offsetWidth;
+
         element.textContent = days;
+
         element.classList.add("flip");
+
         previousDays = days;
     }
 }
+
+// 立即執行
 updateCountdown();
+
+// 每秒檢查一次
 setInterval(updateCountdown, 1000);
+
 </script>
+
 </body>
 </html>
