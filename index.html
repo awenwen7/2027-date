@@ -21,6 +21,8 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
+    font-family: "Noto Serif JP", serif;
+    color: #3e3e3e;
 }
 
 .container {
@@ -33,7 +35,7 @@ body {
 }
 
 .title {
-    font-family: "Yu Gothic", "游ゴシック", sans-serif;
+    font-family: "Noto Serif JP", serif;
     color: #3e3e3e;
     font-size: 20px;
     font-weight: 700;
@@ -46,26 +48,30 @@ body {
 .flip-card {
     background: #c0e3d9;
     border-radius: 12px;
-    width: 85vw;
-    max-width: 320px;
-    height: 140px;
+
+    width: 78vw;
+    max-width: 260px;
+    aspect-ratio: 1 / 1;
+
     padding: 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
+
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
     margin: 0 auto;
 }
 
 .number {
-    font-family: 'Noto Serif JP', serif;
+    font-family: "Noto Serif JP", serif;
     color: #3e3e3e;
-    font-size: 48px;
+    font-size: clamp(48px, 15vw, 58px);
     font-weight: 600;
     line-height: 1.2;
     display: inline-block;
+    font-variant-numeric: tabular-nums;
 }
 
 .flip {
@@ -91,9 +97,10 @@ body {
 }
 
 .label {
-    font-family: 'Noto Serif JP', serif;
+    font-family: "Noto Serif JP", serif;
     color: #3e3e3e;
     font-size: 12px;
+    font-weight: 500;
     letter-spacing: 4px;
     margin-top: 10px;
 }
@@ -114,35 +121,30 @@ body {
 </div>
 
 <script>
-// 目標日：2027年1月31日（日本時間）
 const target = new Date("2027-01-31T00:00:00+09:00");
 
 let previousDays = null;
 
 function updateCountdown() {
 
-    // 取得目前日本時間
     const japanDate = new Date(
         new Date().toLocaleString("en-US", {
             timeZone: "Asia/Tokyo"
         })
     );
 
-    // 取得日本今天的日期
     const today = Date.UTC(
         japanDate.getFullYear(),
         japanDate.getMonth(),
         japanDate.getDate()
     );
 
-    // 取得目標日期
     const targetDay = Date.UTC(
         target.getUTCFullYear(),
         target.getUTCMonth(),
         target.getUTCDate()
     );
 
-    // 計算剩餘天數
     const diff = targetDay - today;
 
     const days = Math.max(
@@ -152,9 +154,7 @@ function updateCountdown() {
 
     const element = document.getElementById("days");
 
-    // 數字改變時播放翻頁動畫
     if (days !== previousDays) {
-
         element.classList.remove("flip");
 
         void element.offsetWidth;
@@ -167,10 +167,7 @@ function updateCountdown() {
     }
 }
 
-// 立即執行
 updateCountdown();
-
-// 每秒檢查一次
 setInterval(updateCountdown, 1000);
 
 </script>
